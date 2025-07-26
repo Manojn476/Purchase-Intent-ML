@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchase Prediction</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-shopping-cart header-icon"></i>
+            <h2>Will the user make a purchase?</h2>
+            <p class="subtitle">Enter the following details to predict purchase intent</p>
+        </div>
+        <div class="collapsible-menu">
+            <button type="button" class="collapsible"><i class="fas fa-info-circle"></i> What do these parameters mean?</button>
+            <div class="content">
+                <ul>
+                    <li><b>Product Related Pages:</b> Number of product pages viewed by the visitor. (e.g., 5)</li>
+                    <li><b>Product Related Duration:</b> Time spent on product pages in seconds. (e.g., 120.5)</li>
+                    <li><b>Bounce Rate:</b> If a visitor leaves your site after viewing only one page, that's a bounce. Enter the percentage as a decimal (0.45 means 45% of visitors bounced). Lower is better!</li>
+                    <li><b>Exit Rate:</b> The percentage of visitors who leave your site from a specific page. Enter as a decimal (0.35 means 35% of visitors exited from this page). Lower is better!</li>
+                    <li><b>Page Value:</b> The average monetary value of the page in dollars. This represents how much revenue this page contributes to your business. (e.g., 10.50 means $10.50)</li>
+                    <li><b>Month:</b> Month of the visit, 0 for January to 11 for December. (e.g., 5)</li>
+                    <li><b>Visitor Type:</b> Type of visitor: Returning, New, or Other.</li>
+                    <li><b>Weekend Visit:</b> Whether the visit occurred on a weekend (Yes/No).</li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-container">
+            <h1>
+                <i class="fas fa-shopping-cart"></i>
+                Online Shopping Prediction
+            </h1>
+            <form method="POST" action="/predict">
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-box"></i>
+                        Product Related Pages
+                        <span class="tooltip">Number of product pages viewed by the visitor</span>
+                    </label>
+                    <input type="number" name="ProductRelated" required min="0" step="1" placeholder="e.g., 5">
+                    <small>Range: 0 to any positive number</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-clock"></i>
+                        Product Related Duration
+                        <span class="tooltip">Time spent on product pages in seconds</span>
+                    </label>
+                    <input type="number" name="ProductRelated_Duration" required min="0" step="0.1" placeholder="e.g., 120.5">
+                    <small>Range: 0 to any positive number (in seconds)</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-undo"></i>
+                        Bounce Rate
+                        <span class="tooltip">Percentage of visitors who leave after viewing only one page (lower is better)</span>
+                    </label>
+                    <input type="number" name="BounceRates" required min="0" max="1" step="0.01" placeholder="e.g., 0.45">
+                    <small>Range: 0 to 1 (0% to 100%)</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-sign-out-alt"></i>
+                        Exit Rate
+                        <span class="tooltip">Percentage of visitors who leave from this page (lower is better)</span>
+                    </label>
+                    <input type="number" name="ExitRates" required min="0" max="1" step="0.01" placeholder="e.g., 0.35">
+                    <small>Range: 0 to 1 (0% to 100%)</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-dollar-sign"></i>
+                        Page Value
+                        <span class="tooltip">Average monetary value of the page in dollars</span>
+                    </label>
+                    <input type="number" name="PageValues" required min="0" step="0.01" placeholder="e.g., 10.50">
+                    <small>Range: 0 to any positive number (in dollars)</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-calendar"></i>
+                        Month
+                        <span class="tooltip">Month of the visit (0-11)</span>
+                    </label>
+                    <input type="number" name="Month" required min="0" max="11" step="1" placeholder="e.g., 5">
+                    <small>Range: 0 (Jan) to 11 (Dec)</small>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-user"></i>
+                        Visitor Type
+                        <span class="tooltip">Type of visitor to the website</span>
+                    </label>
+                    <select name="VisitorType" required>
+                        <option value="0">Returning Visitor</option>
+                        <option value="1">New Visitor</option>
+                        <option value="2">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-calendar-week"></i>
+                        Weekend Visit
+                        <span class="tooltip">Whether the visit occurred on a weekend</span>
+                    </label>
+                    <select name="Weekend" required>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit">
+                        <i class="fas fa-magic"></i>
+                        Predict Purchase Intent
+                    </button>
+                    <a href="/visualize" class="visualize-btn">
+                        <i class="fas fa-chart-bar"></i>
+                        View Data Visualizations
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const coll = document.querySelector('.collapsible');
+        const content = document.querySelector('.collapsible-menu .content');
+        coll.addEventListener('click', function() {
+            this.classList.toggle('active');
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,12 @@
+{
+  "name": "purchase-intent-app",
+  "version": "1.0.0",
+  "description": "Online shoppers purchase intent prediction application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+} 
