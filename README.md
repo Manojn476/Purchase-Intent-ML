@@ -26,6 +26,12 @@ npm start
 
 The application will be available at http://localhost:3000
 
+## GitHub Pages (Frontend)
+
+- GitHub Pages serves the repository root by default.
+- A root `index.html` now redirects to `public/`, so the frontend opens instead of the README page.
+- Note: GitHub Pages hosts only static files; prediction and visualization routes still require the Node/Python backend server.
+
 ## Features
 
 - Machine learning model using Random Forest Classifier
